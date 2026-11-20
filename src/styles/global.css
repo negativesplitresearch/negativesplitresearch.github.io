@@ -153,11 +153,11 @@
 }
 
 /* Beehiiv iframe: always full width of its container.
-   min-height = the form's rendered height (260px, measured Nov 2026) so nothing
+   min-height = the form's rendered height (100px at 320-1440px wide, measured Nov 2026) so nothing
    jumps when Beehiiv's loader injects it. Re-measure if the form changes. */
 .beehiiv-embed {
   position: relative;
-  min-height: 260px;
+  min-height: 100px;
 }
 .beehiiv-embed iframe {
   width: 100% !important;
