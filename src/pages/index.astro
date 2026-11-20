@@ -101,7 +101,7 @@ const benefits = [
       <ol class="mt-6 border-b border-[var(--color-rule)]">
         {UPCOMING.map((t, i) => (
           <li class="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-3 border-t border-[var(--color-rule)] py-5 sm:grid-cols-[3rem_14rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
-            <span class="tabular row-span-2 text-sm font-semibold text-[var(--color-muted)] sm:row-span-1">{String(issues.length + 1 + i).padStart(2, '0')}</span>
+            <span class="tabular row-span-2 text-sm font-semibold text-[var(--color-muted)] sm:row-span-1">{String(i + 1).padStart(2, '0')}</span>
             <p class="font-serif text-xl font-semibold tracking-tight">
               {t.company}
               <span class="ml-2 align-middle font-sans text-xs font-semibold tracking-[0.12em] text-[var(--color-muted)] uppercase sm:mt-1 sm:ml-0 sm:block">{t.sector}</span>

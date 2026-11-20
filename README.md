@@ -164,7 +164,7 @@ Say you buy `negativesplit.com`.
 
 ## Before launch
 
-- Delete the sample issue: `src/content/issues/sample-issue.mdx` and `public/charts/sample/`.
+- ~~Delete the sample issue~~ (done).
 - Replace `public/og-default.png` if you want a custom social card (`python3 scripts/make_og.py` regenerates it).
 
 ---
