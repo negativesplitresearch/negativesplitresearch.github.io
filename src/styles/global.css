@@ -15,6 +15,7 @@
   --color-ink: #16140f;
   --color-muted: #5f5a52;
   --color-rule: #e6e2d9;
+  --color-surface: #f3efe7;
 }
 
 @layer base {
@@ -29,6 +30,7 @@
     --color-ink: #ece9e2;
     --color-muted: #a39e94;
     --color-rule: #2c2a26;
+    --color-surface: #1a1917;
   }
   html {
     background: var(--color-paper);
@@ -38,6 +40,14 @@
   }
   body {
     @apply font-sans antialiased;
+    /* 17px on phones, 18px from tablet up */
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  @media (min-width: 48rem) {
+    body {
+      font-size: 1.125rem;
+    }
   }
   ::selection {
     background: var(--color-accent);
@@ -101,4 +111,56 @@
 .kicker {
   @apply text-xs font-semibold tracking-[0.14em] uppercase;
   color: var(--color-accent);
+}
+
+/* Layout: one page width, one reading width */
+@utility wrap {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 40rem) {
+    padding-inline: 2rem;
+  }
+}
+@utility measure {
+  width: 100%;
+  max-width: 44rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 40rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Primary call to action */
+.btn {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-6 text-[1.05rem] font-semibold transition;
+  background: var(--color-accent);
+  color: #fff;
+}
+.btn:hover {
+  filter: brightness(1.08);
+}
+.dark .btn {
+  color: #1a0d05;
+}
+
+/* Thin split-time rule: a long ink segment then a shorter accent segment */
+.split-rule {
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-ink) 0 58%, transparent 58% 60%, var(--color-accent) 60% 100%);
+}
+
+/* Beehiiv iframe: always full width of its container */
+.beehiiv-embed {
+  min-height: 3.5rem;
+}
+.beehiiv-embed iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
 }

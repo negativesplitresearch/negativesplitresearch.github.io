@@ -1,0 +1,13 @@
+---
+/** Decorative race line: a thin course profile with km ticks and a finish mark. */
+---
+<div class="wrap" aria-hidden="true">
+  <svg viewBox="0 0 1000 48" preserveAspectRatio="none" class="block h-10 w-full sm:h-12">
+    <g stroke="var(--color-rule)" stroke-width="1" vector-effect="non-scaling-stroke">
+      {Array.from({ length: 21 }, (_, i) => <line x1={i * 50} x2={i * 50} y1="40" y2={i % 5 === 0 ? 30 : 35} vector-effect="non-scaling-stroke" />)}
+    </g>
+    <path d="M0 28 C 80 26, 140 18, 220 22 S 360 30, 440 24 S 560 14, 620 20" fill="none" stroke="var(--color-muted)" stroke-opacity=".55" stroke-width="1.25" vector-effect="non-scaling-stroke" />
+    <path d="M620 20 C 700 26, 760 16, 840 12 S 950 8, 1000 6" fill="none" stroke="var(--color-accent)" stroke-width="2" vector-effect="non-scaling-stroke" />
+    <line x1="0" x2="1000" y1="40" y2="40" stroke="var(--color-rule)" stroke-width="1" vector-effect="non-scaling-stroke" />
+  </svg>
+</div>

@@ -18,3 +18,14 @@ export const NAV = [
   { href: '/issues/', label: 'Issues' },
   { href: '/about/', label: 'About' },
 ];
+
+/**
+ * Upcoming topics shown on the homepage ("On the start line").
+ * Editorial plan, not promises: edit freely, and remove an entry once its issue is published.
+ */
+export const UPCOMING: { company: string; sector: string; question: string }[] = [
+  { company: 'Garmin', sector: 'Wearables', question: 'From GPS watches to a training platform: where the money now comes from' },
+  { company: 'On Holding', sector: 'Running shoes', question: 'Growing faster than the category, and what that growth costs' },
+  { company: 'Strava', sector: 'Fitness apps', question: 'The economics of a subscription social network for athletes' },
+  { company: 'IRONMAN Group', sector: 'Events', question: 'What a race series is worth, and who captures the entry fee' },
+];

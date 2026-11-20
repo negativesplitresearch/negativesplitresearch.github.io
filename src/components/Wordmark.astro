@@ -1,0 +1,25 @@
+---
+/**
+ * Wordmark: two split bars (first half long, second half shorter and in accent:
+ * a negative split) next to the name. Pure SVG + text, no image request.
+ */
+interface Props {
+  size?: 'sm' | 'md';
+}
+const { size = 'md' } = Astro.props;
+---
+<span class="inline-flex items-center gap-2.5 sm:gap-3">
+  <svg
+    viewBox="0 0 28 28"
+    class:list={['shrink-0', size === 'sm' ? 'h-6 w-6' : 'h-7 w-7 sm:h-8 sm:w-8']}
+    aria-hidden="true"
+  >
+    <rect x="1" y="1" width="26" height="26" rx="5" fill="none" stroke="currentColor" stroke-width="1.5" />
+    <rect x="6" y="9" width="16" height="3.5" rx="1" fill="currentColor" />
+    <rect x="6" y="15.5" width="11" height="3.5" rx="1" fill="var(--color-accent)" />
+  </svg>
+  <span class="flex flex-col leading-none">
+    <span class:list={['font-serif font-semibold tracking-tight', size === 'sm' ? 'text-base' : 'text-[1.05rem] sm:text-xl']}>Negative Split</span>
+    <span class="sr-only"> </span><span class="mt-1 font-sans text-[0.62rem] font-semibold tracking-[0.28em] text-[var(--color-muted)] uppercase sm:text-[0.68rem]">Research</span>
+  </span>
+</span>

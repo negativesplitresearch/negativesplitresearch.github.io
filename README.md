@@ -27,7 +27,7 @@ npm run preview    # serve dist/ at http://localhost:4321
 
 ```
 src/
-  config.ts                 site name, tagline, nav, BEEHIIV_EMBED
+  config.ts                 site name, tagline, nav, BEEHIIV_EMBED, UPCOMING topics
   content.config.ts         issue frontmatter schema
   content/issues/*.mdx      one file per issue
   components/               Signup, Chart, Verdict, IssueCard, ThemeToggle
@@ -109,6 +109,34 @@ render("garmin", "revenue", plot, title="Revenue", subtitle="$bn", source="Garmi
 ```
 
 This writes `public/charts/garmin/revenue.svg` and `revenue-dark.svg`; `<Chart>` swaps them automatically. Orange (`series[0]`) is always the company the issue covers. Peers are blue then green, with grey for context. The palette has been checked for colour-blind separation in both themes. `scripts/sample_charts.py` is a worked example.
+
+## Newsletter signup
+
+Signups use Beehiiv's official embed (`BEEHIIV_EMBED` in `src/config.ts`), shown as a slim band near the top of the homepage and a full block at the end of every issue and on About.
+
+**Why not a custom HTML form?** On the free plan, both public submit endpoints (`subscribe-forms.beehiiv.com/api/submit` and `negativesplitresearch.beehiiv.com/create`) need a session token and sit behind Cloudflare and PerimeterX bot checks. A cross-site POST from this site gets a 403 and a "Press & Hold" page, and the hosted subscribe page ignores `?email=` prefill. The API needs a paid plan and a server to hold the key.
+
+**The embed's look is set in Beehiiv, not here.** In Beehiiv: Grow → Subscribe Forms → open the form → Edit. Use these values (labels may differ slightly between editor versions):
+
+| Setting | Value |
+| --- | --- |
+| Header / title / subheader text | Off (the site provides the heading) |
+| Image / logo | Off |
+| Form background | Transparent (or turn "background" off) |
+| Container / form width | Full width / 100% (largest available if it only takes px) |
+| Layout | Input and button on one row |
+| Input background | `#FFFFFF` |
+| Input text colour | `#16140F` |
+| Input placeholder | `Your email address` |
+| Input border | 1px, `#D6D0C4` |
+| Input height / font size | about 52px tall / 18px |
+| Corner radius | 6px on input and button |
+| Button background | `#C2410C` |
+| Button text colour | `#FFFFFF`, text `Subscribe` |
+| Font | Inter (or the closest sans-serif offered) |
+| Success message | `You're in. Check your inbox to confirm.` |
+
+A white input with an orange button reads well on both the light and dark site backgrounds. After saving, hard-refresh the site; the iframe resizes itself to the new, shorter form.
 
 ## Deploy
 

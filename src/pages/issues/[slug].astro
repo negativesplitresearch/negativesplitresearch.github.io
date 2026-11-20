@@ -20,7 +20,7 @@ const { Content } = await render(issue);
 const minutes = readingTime(issue.body);
 ---
 <Base title={title} description={summary} image={cover} type="article" publishedTime={date} noindex={draft}>
-  <article class="mx-auto max-w-[44rem] px-5 pt-12 sm:px-8 sm:pt-16">
+  <article class="measure pt-12 sm:pt-16">
     {draft && (
       <p class="mb-6 rounded-sm border border-dashed border-[var(--color-accent)] px-4 py-3 text-sm text-[var(--color-accent)]">
         DRAFT preview. Only visible in local dev; never built for the live site.
@@ -28,13 +28,13 @@ const minutes = readingTime(issue.body);
     )}
     <header>
       <p class="kicker">
-        <a href={`/issues/?sector=${slugify(sector)}`} class="hover:underline">{sector}</a>
+        <a href={`/issues/?sector=${slugify(sector)}`} class="inline-block py-3 -my-3 hover:underline">{sector}</a>
         <span aria-hidden="true"> · </span>
-        <a href={`/issues/?company=${slugify(company)}`} class="hover:underline">{company}{ticker && ` (${ticker})`}</a>
+        <a href={`/issues/?company=${slugify(company)}`} class="inline-block py-3 -my-3 hover:underline">{company}{ticker && ` (${ticker})`}</a>
       </p>
       <h1 class="mt-3 font-serif text-[2.25rem] leading-[1.1] font-semibold tracking-tight sm:text-5xl">{title}</h1>
       <p class="mt-5 text-lg text-[var(--color-muted)] sm:text-xl">{summary}</p>
-      <p class="mt-6 border-b border-[var(--color-rule)] pb-6 text-sm text-[var(--color-muted)]">
+      <p class="tabular mt-6 border-b border-[var(--color-rule)] pb-6 text-[0.95rem] text-[var(--color-muted)]">
         <time datetime={date.toISOString()}>{formatDate(date)}</time> · {minutes} min read
       </p>
     </header>
@@ -47,11 +47,11 @@ const minutes = readingTime(issue.body);
 
     <div class="mt-12 border-t border-[var(--color-rule)] pt-6 text-sm text-[var(--color-muted)]">
       <p><strong class="text-[var(--color-ink)]">Disclosure:</strong> {disclosure ?? 'See the disclaimer for our general disclosure policy.'}</p>
-      <p class="mt-2">This is analysis and opinion, not personalised investment advice. Do your own research. <a href="/disclaimer/" class="underline">Full disclaimer</a>.</p>
+      <p class="mt-2">This is analysis and opinion, not personalised investment advice. Do your own research. <a href="/disclaimer/" class="inline-block py-2 -my-2 underline">Full disclaimer</a>.</p>
     </div>
 
-    <div class="mt-12">
-      <Signup heading="Enjoyed this?" blurb="Get the next issue in your inbox. Free." compact />
+    <div class="mt-14">
+      <Signup id="subscribe" heading="Get the next issue" blurb="One company, one deal, one set of numbers that matter. Free, straight to your inbox." />
     </div>
   </article>
 </Base>

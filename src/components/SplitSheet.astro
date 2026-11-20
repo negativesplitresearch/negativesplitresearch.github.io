@@ -1,0 +1,27 @@
+---
+/**
+ * Decorative "split sheet": five km splits, each faster than the last.
+ * Illustrative only (not data), hidden from assistive tech.
+ */
+const splits = ['4:12', '4:09', '4:05', '4:01', '3:56'];
+const secs = splits.map((s) => { const [m, x] = s.split(':').map(Number); return m * 60 + x; });
+const max = Math.max(...secs);
+---
+<div class="tabular rounded-md border border-[var(--color-rule)] bg-[var(--color-surface)] p-5 sm:p-6" aria-hidden="true">
+  <div class="flex items-baseline justify-between text-[0.7rem] font-semibold tracking-[0.16em] text-[var(--color-muted)] uppercase">
+    <span>Splits · 5 km</span><span>Pace /km</span>
+  </div>
+  <ol class="mt-4 space-y-2.5">
+    {splits.map((s, i) => (
+      <li class="grid grid-cols-[1.5rem_1fr_3rem] items-center gap-3 text-[0.95rem]">
+        <span class="text-[var(--color-muted)]">{i + 1}</span>
+        <span class="h-2 rounded-full" style={`width:${(secs[i] / max) * 100}%;background:${i === splits.length - 1 ? 'var(--color-accent)' : 'var(--color-ink)'};opacity:${i === splits.length - 1 ? 1 : 0.2 + i * 0.12}`}></span>
+        <span class:list={['text-right font-medium', i === splits.length - 1 && 'text-[var(--color-accent)]']}>{s}</span>
+      </li>
+    ))}
+  </ol>
+  <div class="mt-5 flex items-baseline justify-between border-t border-[var(--color-rule)] pt-4">
+    <span class="text-[0.7rem] font-semibold tracking-[0.16em] text-[var(--color-muted)] uppercase">Second half</span>
+    <span class="font-serif text-2xl font-semibold text-[var(--color-accent)]">−0:24</span>
+  </div>
+</div>

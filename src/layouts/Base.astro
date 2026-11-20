@@ -4,6 +4,7 @@ import '@fontsource-variable/source-serif-4';
 import '../styles/global.css';
 import { SITE, NAV } from '../config';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import Wordmark from '../components/Wordmark.astro';
 import serifFont from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
 import sansFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
@@ -63,14 +64,11 @@ const path = Astro.url.pathname;
   <body class="flex min-h-screen flex-col">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:bg-[var(--color-paper)] focus:px-3 focus:py-2">Skip to content</a>
     <header class="border-b border-[var(--color-rule)]">
-      <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
-        <a href="/" class="flex items-center gap-2.5 font-serif text-lg font-semibold tracking-tight sm:text-xl">
-          <span class="inline-block h-2.5 w-2.5 rounded-full bg-[var(--color-accent)]" aria-hidden="true"></span>
-          {SITE.name}
-        </a>
-        <nav class="flex items-center gap-1 text-sm sm:gap-3" aria-label="Main">
+      <div class="wrap flex items-center justify-between gap-3 py-3.5 sm:py-4">
+        <a href="/" class="-my-1 py-1"><Wordmark /></a>
+        <nav class="flex items-center text-[0.95rem] sm:gap-2" aria-label="Main">
           {NAV.map((item) => (
-            <a href={item.href} class:list={['rounded px-2 py-1 transition hover:text-[var(--color-accent)]', path.startsWith(item.href) ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]']}>{item.label}</a>
+            <a href={item.href} class:list={['inline-flex min-h-11 items-center rounded px-2.5 transition hover:text-[var(--color-accent)]', path.startsWith(item.href) ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]']}>{item.label}</a>
           ))}
           <ThemeToggle />
         </nav>
@@ -81,21 +79,20 @@ const path = Astro.url.pathname;
       <slot />
     </main>
 
-    <footer class="mt-24 border-t border-[var(--color-rule)] text-sm text-[var(--color-muted)]">
-      <div class="mx-auto flex max-w-5xl flex-col gap-4 px-5 py-10 sm:flex-row sm:items-start sm:justify-between sm:px-8">
+    <footer class="mt-24 border-t border-[var(--color-rule)] text-[0.95rem] text-[var(--color-muted)]">
+      <div class="wrap flex flex-col gap-6 py-10 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p class="font-serif text-base font-semibold text-[var(--color-ink)]">{SITE.name}</p>
-          <p class="mt-1">{SITE.tagline}</p>
+          <span class="text-[var(--color-ink)]"><Wordmark size="sm" /></span>
+          <p class="mt-3">{SITE.tagline}</p>
           <p class="mt-4 font-medium text-[var(--color-ink)]">{SITE.disclaimerShort}</p>
         </div>
-        <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
-          <a href="/issues/" class="hover:text-[var(--color-accent)]">Issues</a>
-          <a href="/about/" class="hover:text-[var(--color-accent)]">About</a>
-          <a href="/disclaimer/" class="hover:text-[var(--color-accent)]">Disclaimer</a>
-          <a href="/rss.xml" class="hover:text-[var(--color-accent)]">RSS</a>
+        <nav class="flex flex-wrap gap-x-1 gap-y-1 sm:-mr-2.5" aria-label="Footer">
+          {[['/issues/', 'Issues'], ['/about/', 'About'], ['/disclaimer/', 'Disclaimer'], ['/rss.xml', 'RSS']].map(([href, label]) => (
+            <a href={href} class="inline-flex min-h-11 items-center px-2.5 first:pl-0 hover:text-[var(--color-accent)] sm:first:pl-2.5">{label}</a>
+          ))}
         </nav>
       </div>
-      <p class="mx-auto max-w-5xl px-5 pb-10 text-xs sm:px-8">© {new Date().getFullYear()} {SITE.name}</p>
+      <p class="wrap pb-10 text-sm">© {new Date().getFullYear()} {SITE.name}</p>
     </footer>
   </body>
 </html>
