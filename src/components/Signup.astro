@@ -27,7 +27,7 @@ const {
 } = Astro.props;
 ---
 {variant === 'band' ? (
-  <section id={id} class="signup-band scroll-mt-6 border-y border-[var(--color-rule)] bg-[var(--color-surface)]" aria-label="Newsletter signup">
+  <section id={id} class="signup-band scroll-mt-6 border-y border-[var(--color-rule)]" aria-label="Newsletter signup">
     <div class="wrap grid items-center gap-5 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] md:gap-10 md:py-8">
       <div>
         <p class="kicker">Free newsletter</p>
@@ -48,11 +48,20 @@ const {
   </section>
 )}
 <script is:inline>
-  // Beehiiv injects an untitled iframe; give it an accessible name.
+  // Beehiiv injects an untitled iframe: give it an accessible name, and mark the
+  // container loaded (hides the "Loading…" placeholder) once the iframe has loaded.
   (() => {
-    if (window.__bhLabel) return;
-    window.__bhLabel = true;
-    const label = () => document.querySelectorAll('.beehiiv-embed iframe:not([title])').forEach((f) => f.setAttribute('title', 'Newsletter signup form'));
-    new MutationObserver(label).observe(document.documentElement, { childList: true, subtree: true });
+    if (window.__bhEmbed) return;
+    window.__bhEmbed = true;
+    const done = (box) => box && box.setAttribute('data-loaded', '');
+    const scan = () => document.querySelectorAll('.beehiiv-embed iframe:not([data-bh-seen])').forEach((f) => {
+      f.setAttribute('data-bh-seen', '');
+      if (!f.title) f.setAttribute('title', 'Newsletter signup form');
+      const box = f.closest('.beehiiv-embed');
+      f.addEventListener('load', () => done(box), { once: true });
+      setTimeout(() => done(box), 8000); // never leave the placeholder up forever
+    });
+    new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+    scan();
   })();
 </script>

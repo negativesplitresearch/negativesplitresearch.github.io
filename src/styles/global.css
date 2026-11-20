@@ -152,13 +152,42 @@
   background: linear-gradient(90deg, var(--color-ink) 0 58%, transparent 58% 60%, var(--color-accent) 60% 100%);
 }
 
-/* Beehiiv iframe: always full width of its container */
+/* Beehiiv iframe: always full width of its container.
+   min-height = the form's rendered height (260px, measured Nov 2026) so nothing
+   jumps when Beehiiv's loader injects it. Re-measure if the form changes. */
 .beehiiv-embed {
-  min-height: 3.5rem;
+  position: relative;
+  min-height: 260px;
 }
 .beehiiv-embed iframe {
   width: 100% !important;
   max-width: 100% !important;
+}
+/* Subtle placeholder until the iframe has loaded (data-loaded set in Signup.astro) */
+.beehiiv-embed::before {
+  content: 'Loading…';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.beehiiv-embed[data-loaded]::before {
+  content: none;
+}
+
+/* Signup band is always dark, in both themes, to match the Beehiiv form (#1A1917) */
+.signup-band {
+  --color-ink: #ece9e2;
+  --color-muted: #a39e94;
+  --color-accent: #ff8a4c;
+  --color-rule: #2c2a26;
+  background: #1a1917;
+  color: var(--color-ink);
+  color-scheme: dark;
 }
 
 .tabular {
