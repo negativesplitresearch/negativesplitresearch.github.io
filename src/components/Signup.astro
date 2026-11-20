@@ -1,0 +1,34 @@
+---
+import { BEEHIIV_EMBED } from '../config';
+interface Props {
+  heading?: string;
+  blurb?: string;
+  compact?: boolean;
+}
+const {
+  heading = 'Get the next issue',
+  blurb = 'One company, one deal, one set of numbers that matter. Free, in your inbox.',
+  compact = false,
+} = Astro.props;
+---
+<section
+  class:list={[
+    'rounded-sm border border-[var(--color-rule)] bg-[var(--color-accent-soft)]',
+    compact ? 'p-6' : 'p-6 sm:p-10',
+  ]}
+  aria-label="Newsletter signup"
+>
+  <p class="kicker">Newsletter</p>
+  <h2 class:list={['mt-2 font-serif font-semibold tracking-tight', compact ? 'text-2xl' : 'text-3xl']}>{heading}</h2>
+  <p class="mt-2 max-w-prose text-[var(--color-muted)]">{blurb}</p>
+  <div class="beehiiv-embed mt-5 min-h-[350px]">
+    <Fragment set:html={BEEHIIV_EMBED} />
+  </div>
+</section>
+<script is:inline>
+  // Beehiiv injects an untitled iframe; give it an accessible name.
+  (() => {
+    const label = () => document.querySelectorAll('.beehiiv-embed iframe:not([title])').forEach((f) => f.setAttribute('title', 'Newsletter signup form'));
+    new MutationObserver(label).observe(document.documentElement, { childList: true, subtree: true });
+  })();
+</script>

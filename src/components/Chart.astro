@@ -1,0 +1,28 @@
+---
+/**
+ * Responsive chart with automatic light/dark variants.
+ * Usage in MDX: <Chart src="/charts/slug/revenue.svg" alt="..." caption="..." />
+ * If `/charts/slug/revenue-dark.svg` exists (scripts/charts.py makes both), pass dark.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  source?: string;
+  dark?: boolean;
+  width?: number;
+  height?: number;
+}
+const { src, alt, caption, source, dark = true, width = 1200, height = 675 } = Astro.props;
+const darkSrc = src.replace(/(\.\w+)$/, '-dark$1');
+---
+<figure class="not-prose my-10">
+  <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" class:list={['h-auto w-full', dark && 'dark:hidden']} />
+  {dark && <img src={darkSrc} alt={alt} width={width} height={height} loading="lazy" decoding="async" class="hidden h-auto w-full dark:block" />}
+  {(caption || source) && (
+    <figcaption class="mt-3 text-sm text-[var(--color-muted)]">
+      {caption}
+      {source && <span class="block text-xs">Source: {source}</span>}
+    </figcaption>
+  )}
+</figure>

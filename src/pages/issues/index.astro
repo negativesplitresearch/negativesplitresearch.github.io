@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+import IssueCard from '../../components/IssueCard.astro';
+import { getIssues, slugify } from '../../lib/issues';
+
+const issues = await getIssues();
+const companies = [...new Set(issues.map((i) => i.data.company))].sort();
+const sectors = [...new Set(issues.map((i) => i.data.sector))].sort();
+const selectClass = 'w-full rounded-sm border border-[var(--color-rule)] bg-[var(--color-paper)] px-3 py-2 text-sm sm:w-56';
+---
+<Base title="Issues" description="Every issue of Negative Split Research, filterable by company and sector.">
+  <section class="mx-auto max-w-3xl px-5 pt-14 sm:px-8 sm:pt-20">
+    <p class="kicker">Archive</p>
+    <h1 class="mt-3 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">All issues</h1>
+
+    <form id="filters" class="mt-8 flex flex-col gap-3 sm:flex-row" aria-label="Filter issues">
+      <label class="flex flex-col gap-1 text-xs font-medium text-[var(--color-muted)]">
+        Company
+        <select name="company" class={selectClass}>
+          <option value="">All companies</option>
+          {companies.map((c) => <option value={slugify(c)}>{c}</option>)}
+        </select>
+      </label>
+      <label class="flex flex-col gap-1 text-xs font-medium text-[var(--color-muted)]">
+        Sector
+        <select name="sector" class={selectClass}>
+          <option value="">All sectors</option>
+          {sectors.map((s) => <option value={slugify(s)}>{s}</option>)}
+        </select>
+      </label>
+    </form>
+
+    <div id="issue-list" class="mt-8">
+      {issues.map((issue) => (
+        <div data-company={slugify(issue.data.company)} data-sector={slugify(issue.data.sector)}>
+          <IssueCard issue={issue} />
+        </div>
+      ))}
+    </div>
+    <p id="no-results" class="hidden border-t border-[var(--color-rule)] py-8 text-[var(--color-muted)]">No issues match those filters yet.</p>
+    {issues.length === 0 && <p class="border-t border-[var(--color-rule)] py-8 text-[var(--color-muted)]">The first issue is on its way.</p>}
+  </section>
+
+  <script is:inline>
+    (() => {
+      const form = document.getElementById('filters');
+      const items = [...document.querySelectorAll('#issue-list > [data-company]')];
+      const empty = document.getElementById('no-results');
+      const params = new URLSearchParams(location.search);
+      for (const k of ['company', 'sector']) if (params.get(k)) form[k].value = params.get(k);
+      const apply = () => {
+        const c = form.company.value, s = form.sector.value;
+        let shown = 0;
+        for (const el of items) {
+          const ok = (!c || el.dataset.company === c) && (!s || el.dataset.sector === s);
+          el.hidden = !ok;
+          if (ok) shown++;
+        }
+        empty.classList.toggle('hidden', shown > 0 || items.length === 0);
+        const q = new URLSearchParams();
+        if (c) q.set('company', c);
+        if (s) q.set('sector', s);
+        history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname);
+      };
+      form.addEventListener('change', apply);
+      apply();
+    })();
+  </script>
+</Base>

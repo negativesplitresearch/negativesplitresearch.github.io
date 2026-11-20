@@ -1,0 +1,104 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-serif: 'Source Serif 4 Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* One accent: race-bib orange */
+  --color-accent: #c2410c;
+  --color-accent-soft: #fff1e8;
+
+  --color-paper: #fbfaf7;
+  --color-ink: #16140f;
+  --color-muted: #5f5a52;
+  --color-rule: #e6e2d9;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+    --color-accent: #ff8a4c;
+    --color-accent-soft: #2a1a10;
+    --color-paper: #111110;
+    --color-ink: #ece9e2;
+    --color-muted: #a39e94;
+    --color-rule: #2c2a26;
+  }
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply font-sans antialiased;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: white;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+/* Long-form reading */
+.prose-nsr {
+  @apply prose prose-lg max-w-none;
+  --tw-prose-body: var(--color-ink);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-lead: var(--color-muted);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-bullets: var(--color-accent);
+  --tw-prose-hr: var(--color-rule);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-ink);
+  --tw-prose-th-borders: var(--color-rule);
+  --tw-prose-td-borders: var(--color-rule);
+  line-height: 1.75;
+}
+.prose-nsr :where(h2, h3) {
+  @apply font-serif font-semibold tracking-tight;
+}
+.prose-nsr :where(h2) {
+  @apply mt-14 border-t pt-8 text-[1.75rem] leading-tight;
+  border-color: var(--color-rule);
+}
+.prose-nsr :where(a) {
+  @apply underline decoration-1 underline-offset-2;
+}
+.prose-nsr :where(img) {
+  @apply h-auto w-full rounded-sm;
+}
+.prose-nsr :where(table) {
+  @apply block overflow-x-auto text-base tabular-nums;
+}
+.prose-nsr :where(blockquote) {
+  @apply font-serif text-xl font-normal not-italic;
+}
+.prose-nsr :where(blockquote p)::before,
+.prose-nsr :where(blockquote p)::after,
+.prose-nsr :where(code)::before,
+.prose-nsr :where(code)::after {
+  content: none;
+}
+.prose-nsr :where(code) {
+  @apply rounded-sm px-1 py-0.5 text-[0.85em] font-medium break-words;
+  background: var(--color-accent-soft);
+}
+
+.kicker {
+  @apply text-xs font-semibold tracking-[0.14em] uppercase;
+  color: var(--color-accent);
+}

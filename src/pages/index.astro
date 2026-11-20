@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Signup from '../components/Signup.astro';
+import IssueCard from '../components/IssueCard.astro';
+import { SITE } from '../config';
+import { getIssues, formatDate, readingTime } from '../lib/issues';
+
+const issues = await getIssues();
+const [latest, ...rest] = issues;
+const recent = rest.slice(0, 3);
+---
+<Base>
+  <section class="mx-auto max-w-5xl px-5 pt-14 pb-10 sm:px-8 sm:pt-20">
+    <p class="kicker">Independent research</p>
+    <h1 class="mt-3 max-w-3xl font-serif text-[2.6rem] leading-[1.05] font-semibold tracking-tight sm:text-6xl">{SITE.tagline}</h1>
+    <p class="mt-5 max-w-2xl text-lg text-[var(--color-muted)] sm:text-xl">
+      The companies, deals and economics behind running, triathlon, cycling and swimming. Written for people who read a balance sheet and a training plan with the same attention.
+    </p>
+  </section>
+
+  {latest && (
+    <section class="mx-auto max-w-5xl px-5 sm:px-8" aria-labelledby="latest">
+      <div class="grid gap-10 border-t-2 border-[var(--color-ink)] pt-8 lg:grid-cols-[1.6fr_1fr]">
+        <article>
+          <p id="latest" class="kicker">Latest issue · {latest.data.sector}</p>
+          <h2 class="mt-3 font-serif text-3xl leading-tight font-semibold tracking-tight sm:text-[2.6rem]">
+            <a href={`/issues/${latest.id}/`} class="decoration-[var(--color-accent)] decoration-2 underline-offset-4 hover:underline">{latest.data.title}</a>
+          </h2>
+          <p class="mt-4 text-lg text-[var(--color-muted)]">{latest.data.summary}</p>
+          <p class="mt-4 text-sm text-[var(--color-muted)]">
+            {latest.data.company}{latest.data.ticker && ` (${latest.data.ticker})`} · <time datetime={latest.data.date.toISOString()}>{formatDate(latest.data.date)}</time> · {readingTime(latest.body)} min read
+          </p>
+          <a href={`/issues/${latest.id}/`} class="mt-6 inline-block font-medium text-[var(--color-accent)]">Read the issue →</a>
+        </article>
+        <Signup compact />
+      </div>
+    </section>
+  )}
+
+  {!latest && (
+    <section class="mx-auto max-w-5xl px-5 sm:px-8"><Signup /></section>
+  )}
+
+  {recent.length > 0 && (
+    <section class="mx-auto mt-20 max-w-5xl px-5 sm:px-8" aria-labelledby="recent">
+      <div class="flex items-baseline justify-between">
+        <h2 id="recent" class="font-serif text-2xl font-semibold tracking-tight">Recent issues</h2>
+        <a href="/issues/" class="text-sm text-[var(--color-accent)]">All issues →</a>
+      </div>
+      <div class="mt-4">
+        {recent.map((issue) => <IssueCard issue={issue} />)}
+      </div>
+    </section>
+  )}
+</Base>
